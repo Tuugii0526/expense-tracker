@@ -86,7 +86,7 @@ export default function Home() {
           </button>
         </form>
         <div className=" flex flex-wrap gap-4">
-          <p className="text-[#0F172A] ">Don't have an account ?</p>
+          <p className="text-[#0F172A] ">Don&apos;t have an account ?</p>
           <p className="text-[#0166FF] ">
             <Link href={"/sign-up"}>Sign up ?</Link>
           </p>
