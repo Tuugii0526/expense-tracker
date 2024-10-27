@@ -8,7 +8,7 @@ export const Categories=()=>{
                 {icons.map(icon=><div key={icon.id}>{icon.icon}</div>)}
             </div>
             <div className="w-full h-fit gap-4 flex flex-wrap ">
-            {colors.map(color=>(<Circle color={color} />))}
+            {colors.map((color,i)=>(<Circle key={i} color={color} />))}
             </div>
         </div>
     )
