@@ -1,12 +1,12 @@
 import { categories, types } from "@/lib/mockData";
 import { roboto400, roboto700 } from "@/app/fonts/fonts";
-import { PlusIcon } from "@heroicons/react/24/outline";
 import { OneCategory } from "../category/OneCategory";
 import { RecordAddButton } from "./RecordAddButton";
+import { AddCategory } from "../category/AddCategory";
 export const Records = () => {
   return (
     <div className="h-fit w-full bg-[#F9FAFB] px-4 py-6 rounded-xl flex flex-col gap-6 border-[#E5E7EB] border">
-      <RecordAddButton />
+      <RecordAddButton key={'add'} content={'Add'} records/>
       <label htmlFor="search">
         <input
           id="search"
@@ -24,6 +24,7 @@ export const Records = () => {
         <fieldset className="flex flex-col py-2 px-2">
           {types.map((type) => (
             <label
+              key={type?.id}
               htmlFor={type.type}
               className={`capitalize ${roboto400.className} flex gap-2 text-base`}
             >
@@ -45,16 +46,10 @@ export const Records = () => {
         </div>
         <div className="flex flex-col gap-2">
           {categories.map((category) => (
-            <OneCategory category={category} />
+            <OneCategory key={category.id} category={category} />
           ))}
         </div>
-
-        <button className="w-full py-1 px-2 flex gap-2 items-center">
-          <PlusIcon className={"text-[#0166FF] h-5"} />
-          <p className={`${roboto400.className} text-base text-[#1F2937]`}>
-            Add Category
-          </p>
-        </button>
+          <AddCategory/>
       </div>
     </div>
   );

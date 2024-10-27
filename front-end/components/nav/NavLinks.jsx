@@ -1,6 +1,5 @@
 "use client";
 
-import {  roboto } from "@/app/fonts/fonts";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -23,7 +22,7 @@ export const NavLinks = () => {
             clsx(`font-normal capitalize`,{
                 'font-semibold': pathName===link.href
             })
-        }>
+        } key={link.name}>
     {  link.name}
         </Link>
       ))}

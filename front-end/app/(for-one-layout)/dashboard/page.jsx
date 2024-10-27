@@ -4,6 +4,7 @@ import { PieChart } from "@/components/dashboard/chart/PieChart";
 import { LastRecords } from "@/components/dashboard/LastRecords";
 import { TotalExpense } from "@/components/dashboard/TotalExpense";
 import { TotalIncome } from "@/components/dashboard/TotalIncome";
+import { AddCategory } from "@/components/records/category/AddCategory";
 
 export default function Page(){
 return (
@@ -18,6 +19,9 @@ return (
         <PieChart/>
         </div>
         <LastRecords/>
+        <div className="hidden">
+        <AddCategory />
+        </div>
     </div>
 )
 }

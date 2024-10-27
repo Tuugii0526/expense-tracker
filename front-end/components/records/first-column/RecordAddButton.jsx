@@ -1,5 +1,6 @@
 "use client";
 
+import { Select } from "antd";
 import { roboto400, roboto700 } from "@/app/fonts/fonts";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -10,27 +11,27 @@ import {
 } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import clsx from "clsx";
-export const RecordAddButton = () => {
-  const [isOpen, setIsOpen] = useState(false);
+import { options } from "@/lib/mockData";
+import { useRecord } from "../context/RecordAddContextProvider";
+export const RecordAddButton = ({content,records}) => {
+  const {isOpen,setIsOpen} =useRecord()
   const [inComeOrExpense, setIncomeOrExpense] = useState("expense");
-  console.log("inComeOrExpense is:", inComeOrExpense);
-  const onButtonClick = () => {
-    setIsOpen((pre) => !pre);
-  };
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
 
   return (
     <div className="w-full h-fit flex flex-col gap-6">
-      <p className={`${roboto700.className} text-2xl text-black`}>Records</p>
+      {
+        records ? <p className={`${roboto700.className} text-2xl text-black`}>Records</p> : null
+      }
       <button
         className="w-full h-8 rounded-[20px]  p-1 bg-[#0166FF] text-white flex justify-center items-center gap-1"
         onClick={() => {
-          onButtonClick();
+          open();
         }}
       >
         <PlusIcon className="h-full " />
-        <span className={`${roboto400.className}`}>Add</span>
+        <span className={`${roboto400.className}`}>{content}</span>
       </button>
       <Transition show={isOpen}>
         <Dialog onClose={close} className={"relative z-50"}>
@@ -57,7 +58,7 @@ export const RecordAddButton = () => {
             <DialogPanel
               className={"fixed inset-0 flex justify-center items-center"}
             >
-              <div className="w-[600px] h-[600px] bg-white  rounded-3xl overflow-hidden">
+              <div className="w-[600px] h-[500px] bg-white  rounded-3xl overflow-hidden">
                 <div className="w-full h-[15%] px-6 py-5 flex justify-between items-center border border-b-2">
                   <p
                     className={`${roboto700.className} text-xl text-[#0F172A]`}
@@ -73,7 +74,7 @@ export const RecordAddButton = () => {
                 </div>
 
                 <form className="w-full h-[85%] grid grid-cols-[1fr_1fr]">
-                  <div className="w-full h-full px-6 py-5 flex flex-col gap-5">
+                  <div className="w-full h-full px-6 py-5 flex flex-col justify-around">
                     <div className="w-full h-fit flex bg-[#F3F4F6] rounded-2xl">
                       <div
                         className={clsx(
@@ -120,13 +121,84 @@ export const RecordAddButton = () => {
                         min={0}
                       />
                     </label>
-                    <label htmlFor="category" className="w-full ">
-                      <p className={`${roboto400.className} text-base`}>Category</p>
-                      <div></div>
-                    </label>
+                    <div className="w-full flex flex-col ">
+                      <p className={`${roboto400.className} text-base`}>
+                        Category
+                      </p>
+                      <Select
+                        allowClear
+                        options={options}
+                        placeholder="Choose"
+                        name="category"
+                      />
+                    </div>
+
+                    <div className="w-full grid grid-cols-2 gap-1">
+                      <label className="w-full h-fit flex flex-col">
+                        <p className={`${roboto400.className} text-base`}>
+                          Date
+                        </p>
+                        <input
+                          type="date"
+                          name="date"
+                          value={"2024-10-27"}
+                          className="bg-[#F3F4F6] p-2 border rounded-lg"
+                        />
+                      </label>
+                      <labe className="w-full h-fit flex flex-col">
+                        <p className={`${roboto400.className} text-base`}>
+                          Time
+                        </p>
+                        <input
+                          type="time"
+                          name="time"
+                          value="12:39"
+                          className="bg-[#F3F4F6] p-2 border rounded-lg"
+                        />
+                      </labe>
+                    </div>
+                    <button
+                      className={clsx(
+                        "w-full rounded-[20px] p-2 bg-[#0166FF] text-white",
+                        {
+                          "bg-[#16A34A]": inComeOrExpense === "income",
+                        }
+                      )}
+                      type="submit"
+                    >
+                      Add record
+                    </button>
                   </div>
 
-                  <div className="w-full h-full"></div>
+                  <div className="w-full h-full px-6 pt-11 pb-6 grid grid-rows-[1fr_4fr] gap-4">
+                    <label
+                      htmlFor="payee"
+                      className="flex flex-col justify-between"
+                    >
+                      <p className={`${roboto400.className} text-base`}>
+                        Payee
+                      </p>
+                      <input
+                        type="text"
+                        id="payee"
+                        name="payee"
+                        placeholder="Write here"
+                        className="bg-[#F3F4F6] p-2 border rounded-lg"
+                      />
+                    </label>
+                    <label
+                      htmlFor="note"
+                      className="flex flex-col justify-between"
+                    >
+                      <p className={`${roboto400.className} text-base`}>Note</p>
+                      <textarea
+                        name="note"
+                        id="note"
+                        placeholder="Write here"
+                        className="bg-[#F3F4F6] p-2 border rounded-lg flex grow"
+                      ></textarea>
+                    </label>
+                  </div>
                 </form>
               </div>
             </DialogPanel>
