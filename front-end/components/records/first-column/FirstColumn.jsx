@@ -1,12 +1,12 @@
 import { categories, types } from "@/lib/mockData";
 import { roboto400, roboto700 } from "@/app/fonts/fonts";
 import { OneCategory } from "../category/OneCategory";
-import { RecordAddButton } from "./RecordAddButton";
-import { AddCategory } from "../category/AddCategory";
+import { RecordAddButton } from "./AddRecordButton";
+import { AddCategoryButton } from "../category/AddCategoryButton";
 export const Records = () => {
   return (
     <div className="h-fit w-full bg-[#F9FAFB] px-4 py-6 rounded-xl flex flex-col gap-6 border-[#E5E7EB] border">
-      <RecordAddButton key={'add'} content={'Add'} records/>
+      <RecordAddButton key={"add"} content={"Add"} records />
       <label htmlFor="search">
         <input
           id="search"
@@ -49,7 +49,7 @@ export const Records = () => {
             <OneCategory key={category.id} category={category} />
           ))}
         </div>
-          <AddCategory/>
+        <AddCategoryButton/>
       </div>
     </div>
   );

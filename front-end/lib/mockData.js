@@ -1,4 +1,4 @@
-import { AddCategory } from "@/components/records/category/AddCategory";
+import { AddCategoryButton } from "@/components/records/category/AddCategoryButton";
 import { HomeTwoTone, PlusCircleTwoTone } from "@ant-design/icons";
 import {
   Car,
@@ -36,7 +36,7 @@ export const types = [
 ];
 export const options = [
   {
-    label: <AddCategory />,
+    label: <AddCategoryButton />,
   },
   {
     label: (
@@ -63,58 +63,89 @@ export const options = [
     value: "Gift",
   },
 ];
-export const colors=[
-    'yellow','blue','orange','black','cyan','green'
-]
+export const colors = [{
+  id:0,
+  color:"yellow"
+}, 
+{
+  id:1,
+  color:"blue"
+},
+{
+  id:2,
+  color: "orange"
+}, {
+  id:3,
+  color:"black"
+}, {
+  id:4,
+  color:"cyan"
+}, 
+{
+  id:5,
+  color:"green"
+}];
 export const icons = [
   {
-    id:1,
-    icon:<School />
+    id: 1,
+    name:'School',
+    icon: <School />,
   },
   {
-    id:2,
-  icon:<Notebook />
+    id: 2,
+    name:'Notebook',
+    icon: <Notebook />,
   },
   {
-    id:3,
-    icon:<LampDesk />
+    id: 3,
+    name:"LampDesk",
+    icon: <LampDesk />,
   },
   {
-    id:4,
-  icon:<ImageIcon />
+    id: 4,
+    name:"ImageIcon",
+    icon: <ImageIcon />,
   },
   {
-    id:5,
-    icon:<MagnetIcon />
+    id: 5,
+    name:"MagnetIcon",
+    icon: <MagnetIcon />,
   },
   {
-    id:6,
-    icon:<Mic />
+    id: 6,
+    name:"Mic",
+    icon: <Mic />,
   },
   {
-    id:7,
-    icon: <Leaf />
+    id: 7,
+    name:"Leaf",
+    icon: <Leaf />,
   },
   {
-    id:8,
+    id: 8,
+    name:"Rotate3dIcon",
     icon: <Rotate3DIcon />,
   },
   {
-    id:9,
+    id: 9,
+    name:"HeartPulseIcon",
     icon: <HeartPulseIcon />,
   },
   {
-    id:10,
-    icon:<Hospital />,
+    id: 10,
+    name:"Hospital",
+    icon: <Hospital />,
   },
   {
-    id:11,
-    icon:<Car />,
+    id: 11,
+    name:"Car",
+    icon: <Car />,
   },
   {
-    id:12,
+    id: 12,
+    name:"Sprout",
     icon: <Sprout />,
-  }
+  },
 ];
 export const categories = [
   {

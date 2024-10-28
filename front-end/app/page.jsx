@@ -25,7 +25,10 @@ export default function Home() {
         const res=await logIn(values)
         if(res?.success)
         {
+          localStorage.setItem('userId',JSON.stringify(res.id))
+          console.log('response is:',res)
           toast.success(`${res?.message}`)
+          router.push('/dashboard')
         }
         else if(res.type=='no-account'){
           toast.warning(`${res?.message}`)
