@@ -11,11 +11,11 @@ import {
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { HomeIcon } from "lucide-react";
 import { Fragment, useState } from "react";
-import { Categories } from "./Categories";
+import { Categories } from "./HomeCategories";
 import { AddCategoryForm } from "./AddCategoryForm";
 export const AddCategoryButton = () => {
-  const [isOpen,setIsOpen]=useState(false)
-  const [categoriesOpen,setCategoriesOpen]=useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
   return (
@@ -53,7 +53,7 @@ export const AddCategoryButton = () => {
             <DialogPanel
               className={"fixed inset-0 flex justify-center items-center"}
             >
-              <AddCategoryForm close={close}/>
+              <AddCategoryForm close={close} />
             </DialogPanel>
           </TransitionChild>
         </Dialog>
@@ -61,4 +61,3 @@ export const AddCategoryButton = () => {
     </div>
   );
 };
-

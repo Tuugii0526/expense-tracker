@@ -10,12 +10,22 @@ import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
-import { createRecord, getCategories } from "@/lib/actions";
+import { createRecord } from "@/lib/actions";
 import { prepareCategoriesForSelect } from "@/lib/prepareCategoriesForSelect";
 import { getToday } from "@/lib/getToday";
 import { useRouter } from "next/navigation";
+import { getCategories } from "@/lib/data";
+import { useBeAware } from "@/components/context/RecordAddContextProvider";
 export const AddRecordForm = ({ close, setIfAddCategory }) => {
-  const [userId, setUserId] = useState(null);
+  const router = useRouter();
+  const {userId} = useBeAware()
+  if(typeof router !=='undefined')
+  {
+    if (!userId) {
+      toast.warning("You are not logged in . Please log in or sign up");
+      router.push("/");
+    } 
+  }
   const { year, month, day, hour, minute } = getToday();
   const [incomeOrExpense, setIncomeOrExpense] = useState("EXP");
   const [categoryId, setCategoryId] = useState(null);
@@ -28,23 +38,16 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
       label: <OnlyAddCategoryButton setIfAddCategory={setIfAddCategory} />,
     },
   ];
-  const router=useRouter()
   useEffect(() => {
     async function fetchCategories() {
-      const res = await getCategories();
+      const res = await getCategories(userId);
       if (res.success) {
         setCategories(res.categories);
       }
     }
-    const stringifiedUserId = localStorage.getItem("userId");
-    if (stringifiedUserId) {
-      setUserId(JSON.parse(stringifiedUserId));
-    } else {
-      setUserId(null);
-    }
-    fetchCategories();
-  }, []);
-  let options = useMemo(() => prepareCategoriesForSelect(categories));
+    fetchCategories()
+  }, [userId]);
+  let options = useMemo(() => prepareCategoriesForSelect(categories),[categories]);
   options = [...initOptions, ...options];
   const formik = useFormik({
     initialValues: {
@@ -63,41 +66,33 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
     }),
     onSubmit: async (values) => {
       try {
-        if (!userId) {
-          toast.warning("You are not logged in. Please log in or sign up");
-          router.push("/");
-          return 
+        if (!categoryId) {
+          toast.warning("Category is required.");
+          return;
         }
-        if(!categoryId)
-        {
-          toast.warning("Category is required.")
-          return
-        }
-        const created_at = `${values.date} ${values.time}:00`;
         const transaction_type = incomeOrExpense;
         const amount = values?.amount;
         const payee = values?.payee;
         const description = values?.note;
-         const category_id=categoryId
-         const user_id=userId;
+        const category_id = categoryId;
+        const user_id = userId;
         const res = await createRecord({
-          created_at,
           transaction_type,
           amount,
           category_id,
           payee,
           description,
-          user_id
+          user_id,
         });
         if (res.success) {
           toast.success(res.message);
-          close()
+          close();
         } else {
           toast.warning(res.message);
         }
       } catch (error) {
         toast.warning(`${error}`);
-        console.log(`error is: ${error}`)
+        console.log(`error is: ${error}`);
       }
     },
   });
@@ -153,10 +148,10 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
             className="h-[76px] p-2 bg-[#F3F4F6] flex flex-col justify-around border border-[#D1D5DB] rounded-lg"
           >
             <div className="flex gap-4">
-            <p className={`${roboto400.className} text-[#171717]`}>Amount</p>
-            {formik.errors.amount ? (
-              <p className="text-red-600">{formik.errors.amount}</p>
-            ) : null}
+              <p className={`${roboto400.className} text-[#171717]`}>Amount</p>
+              {formik.errors.amount ? (
+                <p className="text-red-600">{formik.errors.amount}</p>
+              ) : null}
             </div>
             <input
               type="number"
@@ -168,14 +163,11 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
               value={formik.values.amount}
               onChange={formik.handleChange}
             />
-            
           </label>
           <div className="w-full flex flex-col ">
             <div className="flex gap-4">
-            <p className={`${roboto400.className} text-base`}>Category</p>
-              {!categoryId ? (
-                <p className="text-red-600">Required</p>
-              ) : null}
+              <p className={`${roboto400.className} text-base`}>Category</p>
+              {!categoryId ? <p className="text-red-600">Required</p> : null}
             </div>
             <Select
               allowClear
@@ -188,10 +180,10 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
           <div className="w-full grid grid-cols-2 gap-1">
             <label className="w-full h-fit flex flex-col">
               <div className="flex gap-4">
-              <p className={`${roboto400.className} text-base`}>Date</p>
-              {formik.errors.date ? (
-                <p className="text-red-600">{formik.errors.date}</p>
-              ) : null}
+                <p className={`${roboto400.className} text-base`}>Date</p>
+                {formik.errors.date ? (
+                  <p className="text-red-600">{formik.errors.date}</p>
+                ) : null}
               </div>
               <input
                 type="date"
@@ -203,10 +195,10 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
             </label>
             <label className="w-full h-fit flex flex-col">
               <div className="flex gap-4">
-              <p className={`${roboto400.className} text-base`}>Time</p>
-              {formik.errors.time ? (
-                <p className="text-red-600">{formik.errors.time}</p>
-              ) : null}
+                <p className={`${roboto400.className} text-base`}>Time</p>
+                {formik.errors.time ? (
+                  <p className="text-red-600">{formik.errors.time}</p>
+                ) : null}
               </div>
               <input
                 type="time"
@@ -215,25 +207,27 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
                 onChange={formik.handleChange}
                 className="bg-[#F3F4F6] p-2 border rounded-lg"
               />
-              
             </label>
           </div>
           <button
-          type="submit"
-          className={clsx("w-full rounded-[20px] p-2 bg-[#0166FF] text-white", {
-            "bg-[#16A34A]": incomeOrExpense === "INC",
-          })}
-        >
-          Add record
-        </button>
+            type="submit"
+            className={clsx(
+              "w-full rounded-[20px] p-2 bg-[#0166FF] text-white",
+              {
+                "bg-[#16A34A]": incomeOrExpense === "INC",
+              }
+            )}
+          >
+            Add record
+          </button>
         </div>
         <div className="w-full h-full px-6 pt-11 pb-6 grid grid-rows-[1fr_4fr] gap-4">
           <label htmlFor="payee" className="flex flex-col justify-between">
             <div className="flex gap-4">
-            <p className={`${roboto400.className} text-base`}>Payee</p>
-            {formik.errors.payee ? (
-              <p className="text-red-600">{formik.errors.payee}</p>
-            ) : null}
+              <p className={`${roboto400.className} text-base`}>Payee</p>
+              {formik.errors.payee ? (
+                <p className="text-red-600">{formik.errors.payee}</p>
+              ) : null}
             </div>
             <input
               type="text"
@@ -244,14 +238,13 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
               value={formik.values.payee}
               onChange={formik.handleChange}
             />
-            
           </label>
           <label htmlFor="note" className="flex flex-col justify-between">
             <div className="flex gap-4">
-            <p className={`${roboto400.className} text-base`}>Note</p>
-            {formik.errors.note ? (
-              <p className="text-red-600">{formik.errors.note}</p>
-            ) : null}
+              <p className={`${roboto400.className} text-base`}>Note</p>
+              {formik.errors.note ? (
+                <p className="text-red-600">{formik.errors.note}</p>
+              ) : null}
             </div>
             <textarea
               name="note"
@@ -261,10 +254,8 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
               value={formik.values.note}
               onChange={formik.handleChange}
             ></textarea>
-            
           </label>
         </div>
-        
       </form>
     </div>
   );

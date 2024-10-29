@@ -16,7 +16,9 @@ import {
   Sprout,
   Utensils,
 } from "lucide-react";
-
+export const dateFilters=[
+  '7','14','21'
+]
 export const types = [
   {
     id: 0,
@@ -34,35 +36,7 @@ export const types = [
     checked: true,
   },
 ];
-export const options = [
-  {
-    label: <AddCategoryButton />,
-  },
-  {
-    label: (
-      <>
-        <HomeTwoTone /> Home
-      </>
-    ),
-    value: "Home",
-  },
-  {
-    label: (
-      <div className="flex gap-2">
-        <Utensils className="text-blue-600" /> Food
-      </div>
-    ),
-    value: "Food",
-  },
-  {
-    label: (
-      <div className="flex gap-2">
-        <Gift className="text-blue-400" /> Gift
-      </div>
-    ),
-    value: "Gift",
-  },
-];
+
 export const colors = [{
   id:0,
   color:"yellow"

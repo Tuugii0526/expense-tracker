@@ -2,7 +2,8 @@
 
 import bcrypt from "bcrypt";
 import { neon } from "@neondatabase/serverless";
-const sql = neon(`${process.env.DATABASE_URL}`);
+import { revalidatePath } from "next/cache";
+export const sql = neon(`${process.env.DATABASE_URL}`);
 export async function signUp({ name, email, password }) {
   try {
     const user = await sql`
@@ -33,9 +34,9 @@ export async function signUp({ name, email, password }) {
 export async function logIn({ email, password }) {
   try {
     const user = await sql`
-        SELECT * 
-        FROM users
-        WHERE email=${email} `;
+          SELECT * 
+          FROM users
+          WHERE email=${email} `;
     if (!user.length) {
       return {
         success: false,
@@ -71,27 +72,11 @@ export async function createCategory({ name, description, icon_color }) {
     const createdCategory = await sql`
    INSERT INTO categories(name,description,icon_color)
    VALUES (${name},${description},${icon_color})`;
+   revalidatePath('records')
     return {
       success: true,
       createdCategory: createdCategory,
       message: "You have successfully created category",
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: `${error}`,
-    };
-  }
-}
-export async function getCategories() {
-  try {
-    const categories = await sql`
-      SELECT * 
-      FROM categories
-      `;
-    return {
-      success: true,
-      categories: categories,
     };
   } catch (error) {
     return {
@@ -106,13 +91,12 @@ export async function createRecord({
   user_id,
   payee,
   transaction_type,
-  description,
-  created_at,
+  description
 }) {
   try {
     await sql`
-  INSERT INTO  records(user_id,name,amount,transaction_type,description,created_at,category_id)
-  VALUES (${user_id},${payee},${amount},${transaction_type},${description},${created_at},${category_id})`;
+  INSERT INTO  records(user_id,name,amount,transaction_type,description,category_id)
+  VALUES (${user_id},${payee},${amount},${transaction_type},${description},${category_id})`;
     return {
       success: true,
       message: "You have successfully created a record",
@@ -124,3 +108,4 @@ export async function createRecord({
     };
   }
 }
+

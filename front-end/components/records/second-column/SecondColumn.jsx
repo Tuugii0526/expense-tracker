@@ -1,7 +1,9 @@
+import { getRecordsAll } from "@/lib/data";
 import { OneDayNotification } from "./PerDayNotification";
 import { SearchedRecordsBar } from "./SecondColumnSearchBar";
 
-export const SearchedRecords = () => {
+export const SearchedRecords = async() => {
+ 
   return (
     <div className="w-full h-full flex flex-col gap-4 overflow-y-scroll">
       <SearchedRecordsBar />

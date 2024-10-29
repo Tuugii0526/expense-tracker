@@ -1,21 +1,14 @@
-import { categories, types } from "@/lib/mockData";
+import {  types } from "@/lib/mockData";
 import { roboto400, roboto700 } from "@/app/fonts/fonts";
-import { OneCategory } from "../category/OneCategory";
 import { RecordAddButton } from "./AddRecordButton";
 import { AddCategoryButton } from "../category/AddCategoryButton";
+import { Search } from "./Search";
+import { CategoriesUsersOwn } from "./CategoriesUsersOwn";
 export const Records = () => {
   return (
     <div className="h-fit w-full bg-[#F9FAFB] px-4 py-6 rounded-xl flex flex-col gap-6 border-[#E5E7EB] border">
       <RecordAddButton key={"add"} content={"Add"} records />
-      <label htmlFor="search">
-        <input
-          id="search"
-          type="text"
-          name="search"
-          placeholder="Search"
-          className="p-1 rounded-lg bg-[#F3F4F6] border-[#D1D5DB] border w-full"
-        />
-      </label>
+      <Search/>
 
       <div className="flex flex-col gap-4 w-fit">
         <p className={`${roboto700.className} text-base text-[#1F2937]`}>
@@ -44,11 +37,7 @@ export const Records = () => {
             Clear
           </p>
         </div>
-        <div className="flex flex-col gap-2">
-          {categories.map((category) => (
-            <OneCategory key={category.id} category={category} />
-          ))}
-        </div>
+        <CategoriesUsersOwn/>
         <AddCategoryButton/>
       </div>
     </div>
