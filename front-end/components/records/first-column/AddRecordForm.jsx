@@ -45,7 +45,7 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
       return 
     }
     fetchCategories();
-  }, [router]);
+  }, [router,userId]);
   let options = useMemo(
     () => prepareCategoriesForSelect(categories),
     [categories]

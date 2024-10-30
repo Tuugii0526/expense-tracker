@@ -18,7 +18,7 @@ export const BeAwareContext=({children})=>{
     const parsedUserId=stringifiedUserId ? JSON.parse(stringifiedUserId) : ''
    setUserId(parsedUserId)
     },[])
-    const value=useMemo(()=>({
+    const value={
         isNewestFirst,
         setIsNewestFirst,
         userId,
@@ -29,7 +29,7 @@ export const BeAwareContext=({children})=>{
        setType,
        setCategory,
        setLastDay,
-    }))
+    }
 return (
     <RecordAddContext.Provider value={value}>
     {children}

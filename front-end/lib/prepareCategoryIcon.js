@@ -9,7 +9,7 @@ export const prepareCategoryIcon=(record)=>{
  return [
     <div className={clsx("w-fit h-fit p-2 bg-[#0166FF] rounded-full ",{
         "bg-[#84CC16]":record.transaction_type==='INC'
-    })}>
+    })} key={icon.id}>
         <div className=" h-5 w-5" style={
             {
                 color:record.icon_color
