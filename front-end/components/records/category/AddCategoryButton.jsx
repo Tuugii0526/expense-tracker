@@ -32,10 +32,10 @@ export const AddCategoryButton = () => {
         <Dialog onClose={close} className={"relative z-50"}>
           <TransitionChild
             as={Fragment}
-            enter="transition-all  ease-in-out duration-300"
+            enter="transition-all  ease-in-out "
             enterFrom="opacity-0 backdrop-blur-none"
             enterTo="opacity-100 backdrop-blur-[.5px]"
-            leave="transition-all ease-in-out duration-300"
+            leave="transition-all ease-in-out "
             leaveFrom="opacity-100 backdrop-blur-[.5px]"
             leaveTo="opacity-0 backdrop-blur-none"
           >
@@ -43,10 +43,10 @@ export const AddCategoryButton = () => {
           </TransitionChild>
           <TransitionChild
             as={Fragment}
-            enter="transition-all ease-in-out duration-300"
+            enter="transition-all ease-in-out "
             enterFrom="opacity-0 "
             enterTo="opacity-100"
-            leave="transition-all ease-in-out duration-300"
+            leave="transition-all ease-in-out "
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
