@@ -3,6 +3,7 @@
 import bcrypt from "bcrypt";
 import { neon } from "@neondatabase/serverless";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 export const sql = neon(`${process.env.DATABASE_URL}`);
 export async function signUp({ name, email, password }) {
   try {
@@ -32,6 +33,8 @@ export async function signUp({ name, email, password }) {
   }
 }
 export async function logIn({ email, password }) {
+  const cookieStore =  cookies()
+
   try {
     const user = await sql`
           SELECT * 
@@ -47,6 +50,7 @@ export async function logIn({ email, password }) {
     const fetchedPassword = user[0].password;
     const passwordsMatch = await bcrypt.compare(password, fetchedPassword);
     if (passwordsMatch) {
+      cookieStore.set('userId',user[0].id)
       return {
         success: true,
         id: user[0].id,
@@ -67,16 +71,16 @@ export async function logIn({ email, password }) {
     };
   }
 }
-export async function createCategory({ name, description, icon_color }) {
+export async function createCategory({ name, description, icon_color ,userId}) {
   try {
     const createdCategory = await sql`
-   INSERT INTO categories(name,description,icon_color)
-   VALUES (${name},${description},${icon_color})`;
-   revalidatePath('records')
+   INSERT INTO categories(name,description,icon_color,user_id)
+   VALUES (${name},${description},${icon_color},${userId})`;
+   revalidatePath('/records')
     return {
       success: true,
       createdCategory: createdCategory,
-      message: "You have successfully created category",
+      message: "You have successfully created category. It is not yet synchronised. If you search from search bar , it will be synchronised .",
     };
   } catch (error) {
     return {
@@ -97,6 +101,7 @@ export async function createRecord({
     await sql`
   INSERT INTO  records(user_id,name,amount,transaction_type,description,category_id)
   VALUES (${user_id},${payee},${amount},${transaction_type},${description},${category_id})`;
+  revalidatePath('/records')
     return {
       success: true,
       message: "You have successfully created a record",

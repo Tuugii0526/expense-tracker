@@ -4,14 +4,18 @@ import { clsx } from "clsx";
 import { roboto400 } from "@/app/fonts/fonts";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import {  useState} from "react";
+import { useBeAware } from "@/components/context/RecordAddContextProvider";
 export const DateCarousel = ({dateFilters}) => {
+    const {setLastDay}=useBeAware()
     const [currIndex,setCurrIndex]=useState(0)
     const plusIndex=()=>{
         setCurrIndex(preIndex=>{
             if(preIndex+1>(dateFilters.length)-1)
             {
+                setLastDay(dateFilters[preIndex])
                 return preIndex
             }
+            setLastDay(dateFilters[preIndex+1])
             return preIndex+1
         })
     }
@@ -19,8 +23,10 @@ export const DateCarousel = ({dateFilters}) => {
         setCurrIndex(preIndex=>{
             if(preIndex-1<0)
             {
+                setLastDay(dateFilters[0])
                 return 0
             }
+            setLastDay(dateFilters[preIndex-1])
             return preIndex-1
         })
     }
@@ -34,7 +40,7 @@ export const DateCarousel = ({dateFilters}) => {
       }>
         
         {
-            dateFilters.map((date,i)=>(<p key={i} className={`${roboto400.className} text-base text-center w-full flex-shrink-0`}> {date} </p>))
+            dateFilters.map((date,i)=>(<p key={i} className={`${roboto400.className} text-base text-center w-full flex-shrink-0`}> {date.inscript} </p>))
         }
         
       </div>

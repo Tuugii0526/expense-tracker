@@ -7,15 +7,17 @@ import { Categories } from "./HomeCategories";
 import { SelectedIcon } from "./SelectedIcon";
 import { createCategory } from "@/lib/actions";
 import { toast } from "react-toastify";
+import { useBeAware } from "@/components/context/RecordAddContextProvider";
 export const AddCategoryForm = ({ setIfAddCategory, close }) => {
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [description, setDescription] = useState("");
   const [selectedIcon, setSelectedIcon] = useState(icons[0]);
   const [selectedColor, setSelectedColor] = useState(colors[0]);
+  const {userId}= useBeAware()
   const onSumbit = async () => {
     const name = selectedIcon?.name;
     const icon_color = selectedColor?.color;
-    const res = await createCategory({ name, description, icon_color });
+    const res = await createCategory({ name, description, icon_color ,userId});
     if (res.success) {
       toast.success(res.message);
       close();

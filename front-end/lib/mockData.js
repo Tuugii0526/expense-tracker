@@ -1,5 +1,3 @@
-import { AddCategoryButton } from "@/components/records/category/AddCategoryButton";
-import { HomeTwoTone, PlusCircleTwoTone } from "@ant-design/icons";
 import {
   Car,
   Gift,
@@ -23,17 +21,20 @@ export const types = [
   {
     id: 0,
     type: "all",
-    checked: false,
+    value: "ALL",
+    checked: true,
   },
   {
     id: 1,
     type: "income",
+    value: "INC",
     checked: false,
   },
   {
     id: 2,
     type: "expense",
-    checked: true,
+    value: "EXP",
+    checked: false,
   },
 ];
 

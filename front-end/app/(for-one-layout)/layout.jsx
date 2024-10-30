@@ -1,6 +1,14 @@
 import Nav from "@/components/nav/Nav";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default function Layout({ children }) {
+  const cookieStore=cookies()
+  const userId =cookieStore.get('userId')?.value 
+  if(!userId)
+   {
+    redirect('/')
+   }
   return (
     <div className="w-full h-fit bg-slate-50  grid grid-rows-[72px_1fr]">
       <div className="w-full h-[72px] bg-white">

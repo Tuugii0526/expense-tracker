@@ -9,8 +9,10 @@ import Link from "next/link";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { logIn } from "@/lib/actions";
+import { useBeAware } from "@/components/context/RecordAddContextProvider";
 export default function Home() {
   const router=useRouter()
+  const {setUserId} =useBeAware()
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -26,8 +28,9 @@ export default function Home() {
         if(res?.success)
         {
           localStorage.setItem('userId',JSON.stringify(res.id))
-          console.log('response is:',res)
+          setUserId(res.id)
           toast.success(`${res?.message}`)
+
           router.push('/dashboard')
         }
         else if(res.type=='no-account'){

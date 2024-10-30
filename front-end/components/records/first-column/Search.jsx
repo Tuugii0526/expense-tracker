@@ -23,7 +23,7 @@ export const Search=()=>{
           id="search"
           type="text"
           name="search"
-          placeholder="Search"
+          placeholder="Search "
           className="p-1 rounded-lg bg-[#F3F4F6] border-[#D1D5DB] border w-full"
           defaultValue={searchParams.get('query')?.toString()}
           onChange={(e)=>{

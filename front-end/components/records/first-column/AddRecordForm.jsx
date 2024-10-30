@@ -18,17 +18,11 @@ import { getCategories } from "@/lib/data";
 import { useBeAware } from "@/components/context/RecordAddContextProvider";
 export const AddRecordForm = ({ close, setIfAddCategory }) => {
   const router = useRouter();
-  const {userId} = useBeAware()
-  if(typeof router !=='undefined')
-  {
-    if (!userId) {
-      toast.warning("You are not logged in . Please log in or sign up");
-      router.push("/");
-    } 
-  }
+  const  {userId}=useBeAware()
   const { year, month, day, hour, minute } = getToday();
   const [incomeOrExpense, setIncomeOrExpense] = useState("EXP");
   const [categoryId, setCategoryId] = useState(null);
+
   const handleChange = (value) => {
     setCategoryId(value);
   };
@@ -39,15 +33,23 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
     },
   ];
   useEffect(() => {
+    console.log('router has changed')
     async function fetchCategories() {
       const res = await getCategories(userId);
       if (res.success) {
         setCategories(res.categories);
       }
     }
-    fetchCategories()
-  }, [userId]);
-  let options = useMemo(() => prepareCategoriesForSelect(categories),[categories]);
+    if(!userId)
+    {
+      return 
+    }
+    fetchCategories();
+  }, [router]);
+  let options = useMemo(
+    () => prepareCategoriesForSelect(categories),
+    [categories]
+  );
   options = [...initOptions, ...options];
   const formik = useFormik({
     initialValues: {
