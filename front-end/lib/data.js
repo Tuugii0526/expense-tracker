@@ -360,3 +360,35 @@ export async function getPieChartCategoryPercent(userId){
     }
   }
 }
+export async function getLastRecords(userId){
+  try {
+    const data= await sql`
+SELECT 
+EXTRACT(YEAR FROM AGE(CURRENT_TIMESTAMP+INTERVAL'8 hour',r.created_at)) AS year,
+EXTRACT(MONTH FROM AGE(CURRENT_TIMESTAMP+INTERVAL'8 hour',r.created_at)) AS month,
+EXTRACT(DAY FROM AGE(CURRENT_TIMESTAMP+INTERVAL'8 hour',r.created_at)) AS day,
+EXTRACT(HOUR FROM AGE(CURRENT_TIMESTAMP+INTERVAL'8 hour',r.created_at)) AS hour,
+EXTRACT(MINUTE FROM AGE(CURRENT_TIMESTAMP+INTERVAL'8 hour',r.created_at)) AS minute,
+EXTRACT(SECOND FROM AGE(CURRENT_TIMESTAMP+INTERVAL'8 hour',r.created_at))::INT AS second,
+r.transaction_type,
+r.amount,
+c.icon_color,
+c.name category_name,
+c.description
+FROM records r
+INNER JOIN categories c ON r.category_id=c.id
+WHERE r.created_at<CURRENT_TIMESTAMP+INTERVAL'8 hour' AND r.user_id=${userId}
+ORDER BY r.created_at DESC
+LIMIT 10`
+console.log('last records are:',data)
+return {
+  success:true,
+  data:data
+}
+  } catch (error) {
+    return {
+      success:false,
+      message:`${error}`
+    }
+  }
+}

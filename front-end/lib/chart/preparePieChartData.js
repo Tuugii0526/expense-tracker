@@ -19,30 +19,11 @@ export const preparePieChartData=(pieCharData,categories)=>{
     labels.push(data?.inc_des || data?.exp_des)
     expenseData.push(Number(data?.exp_sum || 0))
     incomeData.push(Number(data?.inc_sum || 0))
-    if(data?.inc_sum && data?.exp_sum)
+    const foundCategory=categories.find(category=>category.id==(data?.exp_category_id || data?.inc_category_id))
+    if(foundCategory)
     {
-        const foundCategory=categories.find(category=>category.id==(data?.exp_category_id || data?.inc_category_id))
-        if(foundCategory)
-        {
-            expenseColors.push(foundCategory?.icon_color)
-            incomeColors.push(foundCategory?.icon_color)
-        }
-    }
-    else if(data?.inc_sum)
-    {
-        const foundCategory=categories.find(category=>category.id==(data?.exp_category_id || data?.inc_category_id))
-        if(foundCategory)
-            {
-                incomeColors.push(foundCategory?.icon_color)
-            }
-    }
-    else if(data?.exp_sum)
-    {
-        const foundCategory=categories.find(category=>category.id==(data?.exp_category_id || data?.inc_category_id))
-        if(foundCategory)
-            {
-                expenseColors.push(foundCategory?.icon_color)
-            }
+        expenseColors.push(foundCategory?.icon_color)
+        incomeColors.push(foundCategory?.icon_color)
     }
 
  })

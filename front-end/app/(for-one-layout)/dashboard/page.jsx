@@ -5,6 +5,7 @@ import { TotalExpense } from "@/components/dashboard/TotalExpense";
 import { TotalIncome } from "@/components/dashboard/TotalIncome";
 import { CashCardFallBack } from "@/components/fallback/dashboard/CashCardFallBack";
 import { ChartFallBack } from "@/components/fallback/dashboard/ChartFallBack";
+import { LastRecordsFallBack } from "@/components/fallback/dashboard/LastRecordsFallBack";
 import { TotalExpenseFallBack } from "@/components/fallback/dashboard/TotalExpenseFallBack";
 import { TotalIncomeFallBack } from "@/components/fallback/dashboard/TotalIncomeFallBack";
 import { cookies } from "next/headers";
@@ -29,7 +30,9 @@ export default async function Page() {
       <Suspense fallback={<ChartFallBack/>}>
       <Chart userId={userId} />
       </Suspense>
-      <LastRecords />
+     <Suspense fallback={<LastRecordsFallBack/>}>
+     <LastRecords userId={userId}/>
+     </Suspense>
     </div>
   );
 }
