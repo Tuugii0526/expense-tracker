@@ -6,9 +6,8 @@ export const BeAwareContext=({children})=>{
     const [category,setCategory]=useState('')
     const [lastDay,setLastDay]=useState(
         {
-            lastDayType:'day',
-            lastQuantity:1,
-            inscript:'Last 1 day'
+            day:'7',
+            inscript:'Last 7 days'
         }
     )
     const [isNewestFirst,setIsNewestFirst]=useState('true')

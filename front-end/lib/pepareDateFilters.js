@@ -1,65 +1,41 @@
 import { getFilterDates } from "./data"
-
-export const prepareDateFilters= async()=>{
- const dates=[]
-  const res=await getFilterDates();
-  const triple= res?.data
-  for(const property in triple )
-  {
-    let counter
-    if(property=='day')
+const generateDaysUpToYear=()=>{
+  return [
     {
-      counter=triple[property]+1
-    }
-    else
+      day:String(7),
+      script:'Last 7 days'
+    },
     {
-      counter=triple[property]
-    }
-    let dateExistsOtherThanDay= ((property=='month' || property=='year') && counter>0)
-    while(counter >1)
+      day:String(31),
+      script:'Last 1 month'
+    },
     {
-        dates.push({
-          lastDayType:property,
-          lastQuantity:counter,
-          inscript:`Last ${counter} ${property}s ago`
-        })
-        if(property==='day')
-        {
-          counter-=7
-          continue
-        }
-        if(property==='month')
-        {
-          counter-=3
-          continue
-        }
-        if(property==='year')
-        {
-          counter-=2
-        }
-    }
-    if(property==='day')
+      day:String(31*3),
+      script:'Last 3 months'
+    },
     {
-      dates.push(
-        {
-          lastDayType:property,
-          lastQuantity:1,
-          inscript:'Last 1 day'
-        }
-      )
-
-    }
-    else 
+      day:String(31*6),
+      script:'Last 6 months'
+    },
     {
-      if(dateExistsOtherThanDay)
-      { 
-       dates.push({
-        type:property,
-        lastQuantity:1,
-        inscript:`Last 1 ${property} ago`
-      })
-      }
+      day:String(366),
+      script:'Last 1 year'
     }
-  }
-   return dates.slice().reverse()
+  ]
 }
+export const prepareDateFilters= async()=>{
+  const dates=[]
+   const res=await getFilterDates();
+   let {year}= res?.data
+   year=Number(year)+1
+   dates.push(...generateDaysUpToYear())
+   while(year>1)
+   {
+    dates.push({
+      day:String(366*year),
+      script:`Last ${year} years`
+    })
+    year--
+   }
+   return dates
+ }

@@ -40,7 +40,7 @@ export const DateCarousel = ({dateFilters}) => {
       }>
         
         {
-            dateFilters.map((date,i)=>(<p key={i} className={`${roboto400.className} text-base text-center w-full flex-shrink-0`}> {date.inscript} </p>))
+            dateFilters.map((date,i)=>(<p key={i} className={`${roboto400.className} text-base text-center w-full flex-shrink-0`}> {date.script} </p>))
         }
         
       </div>

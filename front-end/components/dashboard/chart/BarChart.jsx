@@ -11,40 +11,22 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { prepareBarChartData } from "@/lib/chart/prepareBarChartData";
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const data = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
-  datasets: [
+export const BarChart = ({barChartData}) => {
+  if(!barChartData.length)
     {
-      label: "Expense",
-      data: [1000, 2000, 300, 5000, 2004, 3008, 5000],
-      barThickness: 16,
-      borderRadius: 15,
-      borderColor: "#36A2EB",
-      backgroundColor: "#84CC16",
-    },
-    {
-      label: "Income",
-      data: [1134, 1341, 1234, 123, 452, 563, 904],
-      barThickness: 16,
-      borderRadius: 15,
-      borderColor: "#FF6384",
-      backgroundColor: "#F97316",
-    },
-  ],
-};
-const options = {
-  responsive: true,
-  maintainAspectRatio: true,
-  grouped:true,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-  },
-};
-export const BarChart = () => {
+      return (
+        <div className="w-full h-full flex flex-col gap-2 items-center justify-center text-center bg-white rounded-2xl">
+           <p>No data  🤷‍♂️😜</p>
+           <p>But wait...</p>
+           <p>You can add category  and record 🐬.</p>
+           <p>This is <bold>Gelda</bold></p>
+        </div>
+      )
+      
+    }
+  const {data,options}=prepareBarChartData(barChartData)
   return (
     <div className="w-full h-full grid grid-rows-[0.5fr_3fr] bg-white">
       <div className="h-full w-full flex items-center ">

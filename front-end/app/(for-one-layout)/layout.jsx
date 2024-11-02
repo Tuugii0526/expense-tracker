@@ -16,11 +16,9 @@ export default function Layout({ children }) {
           <Nav/>
         </div>
       </div>
-      <div className="flex ">
-        <div className="h-[1150px] w-[80%] max-w-[1200px] min-w-[240px] m-auto my-10 rounded-2xl  "> 
+      <div className="h-[1150px] w-[80%] max-w-[1200px] min-w-[240px] m-auto my-10 rounded-2xl"> 
           {children}
         </div>
-      </div>
     </div>
   );
 }

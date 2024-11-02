@@ -72,6 +72,7 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
           toast.warning("Category is required.");
           return;
         }
+        const created_at= `${values.date} ${values.time}`
         const transaction_type = incomeOrExpense;
         const amount = values?.amount;
         const payee = values?.payee;
@@ -85,6 +86,7 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
           payee,
           description,
           user_id,
+          created_at
         });
         if (res.success) {
           toast.success(res.message);

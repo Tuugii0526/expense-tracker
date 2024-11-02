@@ -1,3 +1,3 @@
-export const lastDayFilter=(records,type,lastQuantity)=>{
-return records.filter(record=>record[type]<lastQuantity)
+export const lastDayFilter=(records,day)=>{
+return records.filter(record=>Number(record.day)<day)
 }

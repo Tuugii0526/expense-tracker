@@ -1,21 +1,16 @@
 "use client";
 
-import { roboto700 } from "@/app/fonts/fonts";
-import { DownOutlined, PlusCircleTwoTone, UpOutlined } from "@ant-design/icons";
+import {  PlusCircleTwoTone } from "@ant-design/icons";
 import {
   Dialog,
   DialogPanel,
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { HomeIcon } from "lucide-react";
 import { Fragment, useState } from "react";
-import { Categories } from "./HomeCategories";
 import { AddCategoryForm } from "./AddCategoryForm";
-export const AddCategoryButton = () => {
+export const AddCategoryButton = ({content='Add category'}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [categoriesOpen, setCategoriesOpen] = useState(false);
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
   return (
@@ -26,7 +21,7 @@ export const AddCategoryButton = () => {
           open();
         }}
       >
-        <PlusCircleTwoTone /> Add Category
+        <PlusCircleTwoTone />{content}
       </div>
       <Transition show={isOpen}>
         <Dialog onClose={close} className={"relative z-50"}>

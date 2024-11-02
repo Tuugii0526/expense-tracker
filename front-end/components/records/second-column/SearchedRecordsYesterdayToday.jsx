@@ -6,17 +6,17 @@ import { useBeAware } from "@/components/context/RecordAddContextProvider";
 import { typeFilter } from "@/lib/type-category-last-day-filter/typeFilter";
 import { categoryFilter } from "@/lib/type-category-last-day-filter/categoryFilter";
 import { lastDayFilter } from "@/lib/type-category-last-day-filter/lastDayFilter";
-export const SearchedRecordsContainingTodayYesterday = ({ records, query }) => {
+export const SearchedRecordsContainingTodayYesterday = ({ records}) => {
   const { type, category, lastDay, isNewestFirst } = useBeAware();
-  const { lastDayType, lastQuantity } = lastDay;
-  console.log("records are:", records);
+  let { day } = lastDay;
+  day=Number(day)
   let copiedRecords = [...records];
   if (!isNewestFirst) {
     copiedRecords = copiedRecords.reverse();
   }
   const lastDayFilterRecords = useMemo(() => {
-    return lastDayFilter(copiedRecords, lastDayType, lastQuantity);
-  }, [lastDayType, lastQuantity, copiedRecords]);
+    return lastDayFilter(copiedRecords, day);
+  }, [day, copiedRecords]);
 
   const categoryFilterRecords = useMemo(() => {
     if (category == "") {

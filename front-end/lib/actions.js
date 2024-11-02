@@ -77,10 +77,11 @@ export async function createCategory({ name, description, icon_color ,userId}) {
    INSERT INTO categories(name,description,icon_color,user_id)
    VALUES (${name},${description},${icon_color},${userId})`;
    revalidatePath('/records')
+   revalidatePath('/dashboard')
     return {
       success: true,
       createdCategory: createdCategory,
-      message: "You have successfully created category. It is not yet synchronised. If you search from search bar , it will be synchronised .",
+      message: "You have successfully created category.",
     };
   } catch (error) {
     return {
@@ -95,16 +96,18 @@ export async function createRecord({
   user_id,
   payee,
   transaction_type,
-  description
+  description,
+  created_at
 }) {
   try {
     await sql`
-  INSERT INTO  records(user_id,name,amount,transaction_type,description,category_id)
-  VALUES (${user_id},${payee},${amount},${transaction_type},${description},${category_id})`;
+  INSERT INTO  records(user_id,name,amount,transaction_type,description,category_id,created_at)
+  VALUES (${user_id},${payee},${amount},${transaction_type},${description},${category_id},${created_at})`;
   revalidatePath('/records')
+  revalidatePath('/dashboard')
     return {
       success: true,
-      message: "You have successfully created a record",
+      message: "You have successfully created a record.",
     };
   } catch (error) {
     return {
