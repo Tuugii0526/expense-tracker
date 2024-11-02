@@ -14,7 +14,7 @@ export const LastRecords= async({userId})=>{
             {
                 res.success 
                 ? <div className="h-[90%] w-full flex flex-col overflow-y-scroll">
-                {res.data.map(record=><LastRecord record={record} />)}
+                {res.data.map(record=><LastRecord key={record.id} record={record} />)}
                </div>
                : <p className="text-red-600">{res.message}</p>
             }

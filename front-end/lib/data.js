@@ -372,6 +372,7 @@ EXTRACT(MINUTE FROM AGE(CURRENT_TIMESTAMP+INTERVAL'8 hour',r.created_at)) AS min
 EXTRACT(SECOND FROM AGE(CURRENT_TIMESTAMP+INTERVAL'8 hour',r.created_at))::INT AS second,
 r.transaction_type,
 r.amount,
+r.id,
 c.icon_color,
 c.name category_name,
 c.description
