@@ -1,5 +1,5 @@
 "use client"
-import { useContext,createContext,useState ,useMemo,useEffect} from "react"
+import { useContext,createContext,useState ,useEffect} from "react"
 const RecordAddContext=createContext(null)
 export const BeAwareContext=({children})=>{
     const [type,setType]=useState('')
@@ -14,7 +14,7 @@ export const BeAwareContext=({children})=>{
     const [userId,setUserId]=useState('')
     useEffect(()=>{
      const stringifiedUserId =localStorage.getItem('userId')
-    const parsedUserId=stringifiedUserId ? JSON.parse(stringifiedUserId) : ''
+    const parsedUserId=stringifiedUserId ? JSON.parse(stringifiedUserId) : '';
    setUserId(parsedUserId)
     },[])
     const value={

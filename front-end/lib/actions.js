@@ -34,7 +34,6 @@ export async function signUp({ name, email, password }) {
 }
 export async function logIn({ email, password }) {
   const cookieStore =  cookies()
-
   try {
     const user = await sql`
           SELECT * 

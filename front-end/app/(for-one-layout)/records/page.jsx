@@ -2,7 +2,6 @@ import { FirstColumnFallBack } from "@/components/fallback/records/FirstColumnFa
 import { SecondColumnFallBack } from "@/components/fallback/records/SecondColumnFallBack";
 import { Records } from "@/components/records/first-column/FirstColumn";
 import { SearchedRecords } from "@/components/records/second-column/SecondColumn";
-import { getRecordsAll } from "@/lib/data";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 

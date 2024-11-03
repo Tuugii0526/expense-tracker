@@ -1,12 +1,12 @@
 import { GeldaIcon } from "../icons/GeldaIcon"
 import { kanit, roboto, roboto700 } from "@/app/fonts/fonts"
 import { ThreeLines } from "../icons/ThreeLines"
-import { getTotalThisMonth } from "@/lib/data"
+import { getTotalCash, getTotalThisMonth } from "@/lib/data"
 import { cookies } from "next/headers"
 export const CashCard= async()=>{
     const cookieStore=cookies()
     const userId=cookieStore.get('userId')?.value
-    const res=await getTotalThisMonth(userId)
+    const res= await getTotalCash(userId)
     let cash
     if(res.success)
     {
@@ -28,7 +28,7 @@ export const CashCard= async()=>{
             <p className={`text-white text-xl ${kanit.className}`}>Geld</p>
          </div>
          <div className="flex flex-col absolute left-[10%] bottom-[20%]">
-            <p className={`${roboto.className} text-white opacity-50`}>Cash</p>
+            <p className={`${roboto.className} text-white opacity-50`}>Total Cash</p>
             <p className={`${roboto700.className} text-white text-2xl`}>{cash}</p>
          </div>
          <div className="absolute bottom-[20%] right-[15%]">

@@ -33,7 +33,6 @@ export const AddRecordForm = ({ close, setIfAddCategory }) => {
     },
   ];
   useEffect(() => {
-    console.log('router has changed')
     async function fetchCategories() {
       const res = await getCategories(userId);
       if (res.success) {

@@ -381,11 +381,51 @@ INNER JOIN categories c ON r.category_id=c.id
 WHERE r.created_at<CURRENT_TIMESTAMP+INTERVAL'8 hour' AND r.user_id=${userId}
 ORDER BY r.created_at DESC
 LIMIT 10`
-console.log('last records are:',data)
 return {
   success:true,
   data:data
 }
+  } catch (error) {
+    return {
+      success:false,
+      message:`${error}`
+    }
+  }
+}
+export async function getTotalCash(userId){
+  try {
+    const totalCash=  await  sql`
+    SELECT 
+transaction_type,
+SUM(amount) 
+FROM records 
+WHERE user_id=${userId}
+GROUP BY transaction_type
+    `
+    return {
+      success:true,
+      data:totalCash
+    }
+  } catch (error) {
+    return {
+      success:false,
+      message:`${message}`
+    }
+  }
+}
+export async function getUserData(userId){
+  try {
+    const user= await sql `
+    SELECT 
+name,
+email
+FROM users 
+WHERE id=${userId};
+    `
+    return {
+      success:true,
+      user:user
+    }
   } catch (error) {
     return {
       success:false,
