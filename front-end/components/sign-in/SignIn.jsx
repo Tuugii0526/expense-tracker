@@ -1,7 +1,8 @@
 "use client"
 
+import { signUp } from "@/lib/actions";
 import { useFormik } from "formik";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import * as Yup from "yup"
